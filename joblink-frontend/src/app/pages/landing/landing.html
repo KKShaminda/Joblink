@@ -5,7 +5,18 @@
   </header>
 
   <div class="job-search">
-    <input type="text" placeholder="Search jobs..." />
-    <button>Search</button>
+    <input type="text" placeholder="Search jobs..." [(ngModel)]="searchTerm" />
+    <button (click)="searchJobs()">Search</button>
   </div>
+
+  <div class="job-results" *ngIf="filteredJobs.length > 0">
+    <h2>Available Jobs</h2>
+    <ul>
+      <li *ngFor="let job of filteredJobs">
+        <strong>{{ job.title }}</strong> — {{ job.company }} ({{ job.location }})
+      </li>
+    </ul>
+  </div>
+
+  <p *ngIf="filteredJobs.length === 0">No jobs found.</p>
 </section>
