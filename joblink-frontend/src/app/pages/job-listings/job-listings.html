@@ -1,0 +1,25 @@
+<section class="job-listings">
+  <header>
+    <h1>Job Listings</h1>
+    <p>Explore the latest opportunities</p>
+  </header>
+
+  <div class="job-search">
+    <input type="text" placeholder="Search jobs..." [(ngModel)]="searchTerm" />
+    <button (click)="searchJobs()">Search</button>
+  </div>
+
+  <div class="jobs-grid" *ngIf="filteredJobs.length > 0; else noJobs">
+    <div class="job-card" *ngFor="let job of filteredJobs">
+      <h2>{{ job.title }}</h2>
+      <p><strong>Company:</strong> {{ job.company }}</p>
+      <p><strong>Location:</strong> {{ job.location }}</p>
+      <p class="desc">{{ job.description }}</p>
+      <button class="apply-btn">View Details</button>
+    </div>
+  </div>
+
+  <ng-template #noJobs>
+    <p class="no-jobs">No jobs found.</p>
+  </ng-template>
+</section>
