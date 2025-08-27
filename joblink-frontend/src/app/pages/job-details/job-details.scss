@@ -1,0 +1,32 @@
+.job-details {
+  padding: 30px;
+  text-align: center;
+
+  h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+  }
+
+  h3 {
+    color: #2980b9;
+    margin: 10px 0;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #555;
+    margin: 20px 0;
+  }
+
+  a {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #3498db;
+    font-weight: bold;
+
+    &:hover {
+      color: #2980b9;
+    }
+  }
+}

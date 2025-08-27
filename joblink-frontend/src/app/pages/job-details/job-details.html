@@ -1,0 +1,11 @@
+<section class="job-details" *ngIf="job">
+  <h1>{{ job.title }}</h1>
+  <h3>{{ job.company }}</h3>
+  <p>{{ job.description }}</p>
+
+  <a routerLink="/jobs">⬅ Back to Jobs</a>
+</section>
+
+<section *ngIf="!job">
+  <p>Job not found.</p>
+</section>
