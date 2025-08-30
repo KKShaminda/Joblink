@@ -1,0 +1,65 @@
+.dashboard {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 60px); // leave space if navbar exists
+
+  @media (max-width: 900px) {
+    grid-template-columns: 72px 1fr;
+  }
+}
+
+.sidebar {
+  background: #22313f;
+  color: #fff;
+  padding: 16px;
+  transition: width 0.2s ease-in-out;
+  overflow: hidden;
+
+  &.collapsed {
+    width: 72px;
+  }
+
+  .brand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    margin-bottom: 16px;
+
+    .toggle {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      padding: 2px 8px;
+      cursor: pointer;
+    }
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    a {
+      color: #cfd8dc;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 8px;
+
+      &:hover {
+        background: rgba(255,255,255,0.08);
+      }
+
+      &.active {
+        background: rgba(255,255,255,0.16);
+        color: #fff;
+      }
+    }
+  }
+}
+
+.content {
+  background: #f6f8fb;
+  padding: 20px;
+}

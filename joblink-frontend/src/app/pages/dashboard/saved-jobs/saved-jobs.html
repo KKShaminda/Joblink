@@ -1,0 +1,17 @@
+<section class="saved">
+  <h2>Saved Jobs</h2>
+
+  <div class="list" *ngIf="saved.length; else empty">
+    <div class="item" *ngFor="let s of saved">
+      <div class="info">
+        <div class="title">{{ s.title }}</div>
+        <div class="meta">{{ s.company }} — {{ s.location }}</div>
+      </div>
+      <button class="remove" (click)="remove(s.id)">Remove</button>
+    </div>
+  </div>
+
+  <ng-template #empty>
+    <p>No saved jobs yet.</p>
+  </ng-template>
+</section>

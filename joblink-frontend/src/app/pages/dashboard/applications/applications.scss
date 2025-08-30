@@ -1,0 +1,33 @@
+.applications {
+  h2 { margin-bottom: 12px; }
+
+  .table {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+
+    .thead, .row {
+      display: grid;
+      grid-template-columns: 1.5fr 1.2fr 1fr 1fr;
+      gap: 10px;
+      padding: 12px 16px;
+    }
+
+    .thead {
+      background: #f3f4f6;
+      font-weight: 700;
+    }
+
+    .row { border-top: 1px solid #f3f4f6; }
+
+    .status {
+      font-weight: 700;
+
+      &.under\ review { color: #92400e; } /* 'Under Review' becomes 'under review' via lowercase pipe */
+      &.interview { color: #2563eb; }
+      &.rejected { color: #dc2626; }
+      &.accepted { color: #16a34a; }
+    }
+  }
+}

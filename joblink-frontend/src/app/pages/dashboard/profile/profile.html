@@ -1,0 +1,43 @@
+<section class="profile">
+  <h2>Edit Profile</h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <div class="grid">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" formControlName="fullName" />
+        <small *ngIf="form.get('fullName')?.invalid && form.get('fullName')?.touched">
+          Name is required (min 3 chars).
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" formControlName="email" />
+        <small *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+          Enter a valid email.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" formControlName="location" />
+        <small *ngIf="form.get('location')?.invalid && form.get('location')?.touched">
+          Location is required.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>Headline</label>
+        <input type="text" formControlName="headline" />
+      </div>
+
+      <div class="form-group full">
+        <label>Bio</label>
+        <textarea rows="4" formControlName="bio"></textarea>
+      </div>
+    </div>
+
+    <button type="submit">Save Profile</button>
+  </form>
+</section>

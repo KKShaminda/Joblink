@@ -1,0 +1,22 @@
+<div class="dashboard">
+  <aside class="sidebar" [class.collapsed]="!sidebarOpen">
+    <div class="brand">
+      <span>JobLink</span>
+      <button class="toggle" (click)="toggleSidebar()">
+        {{ sidebarOpen ? '«' : '»' }}
+      </button>
+    </div>
+
+    <nav class="menu">
+      <a routerLink="/dashboard/overview" routerLinkActive="active">Overview</a>
+      <a routerLink="/dashboard/profile" routerLinkActive="active">Profile</a>
+      <a routerLink="/dashboard/saved-jobs" routerLinkActive="active">Saved Jobs</a>
+      <a routerLink="/dashboard/applications" routerLinkActive="active">Applications</a>
+      <a routerLink="/dashboard/settings" routerLinkActive="active">Settings</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,0 +1,19 @@
+<section class="applications">
+  <h2>Applications</h2>
+
+  <div class="table">
+    <div class="thead">
+      <div>Title</div>
+      <div>Company</div>
+      <div>Date</div>
+      <div>Status</div>
+    </div>
+
+    <div class="row" *ngFor="let r of rows">
+      <div>{{ r.title }}</div>
+      <div>{{ r.company }}</div>
+      <div>{{ r.date }}</div>
+      <div class="status {{ r.status | lowercase }}">{{ r.status }}</div>
+    </div>
+  </div>
+</section>

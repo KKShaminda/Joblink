@@ -1,0 +1,21 @@
+<section class="overview">
+  <h2>Overview</h2>
+
+  <div class="cards">
+    <div class="card" *ngFor="let c of stats">
+      <div class="value">{{ c.value }}</div>
+      <div class="label">{{ c.label }}</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Recent Applications</h3>
+    <ul class="list">
+      <li *ngFor="let a of recentApplications">
+        <div class="title">{{ a.title }}</div>
+        <div class="company">{{ a.company }}</div>
+        <div class="status">{{ a.status }}</div>
+      </li>
+    </ul>
+  </div>
+</section>

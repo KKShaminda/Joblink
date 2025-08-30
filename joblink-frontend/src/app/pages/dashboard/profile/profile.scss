@@ -1,0 +1,42 @@
+.profile {
+  h2 { margin-bottom: 16px; }
+
+  form {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+
+    .full { grid-column: 1 / -1; }
+  }
+
+  .form-group {
+    label { display: block; font-weight: 600; margin-bottom: 6px; }
+    input, textarea {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 10px;
+      background: #fff;
+    }
+    small { color: #dc2626; }
+  }
+
+  button {
+    margin-top: 12px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+
+    &:hover { background: #1d4ed8; }
+  }
+}
