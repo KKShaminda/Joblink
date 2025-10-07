@@ -1,0 +1,29 @@
+.settings {
+  h2 { margin-bottom: 12px; }
+
+  form {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #10b981;
+      color: #fff;
+      cursor: pointer;
+
+      &:hover { background: #059669; }
+    }
+  }
+}
