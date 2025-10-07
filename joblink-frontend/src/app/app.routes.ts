@@ -11,6 +11,10 @@ import { Profile } from './pages/dashboard/profile/profile';
 import { SavedJobs } from './pages/dashboard/saved-jobs/saved-jobs';
 import { Settings } from './pages/dashboard/settings/settings';
 import { JobPost as JobPostComponent } from './pages/job-post/job-post';
+import { AdminDashboard } from './admin/admin-dashboard/admin-dashboard';
+import { ManageUsers } from './admin/manage-users/manage-users';
+import { ManageJobs } from './admin/manage-jobs/manage-jobs';
+import { SystemLogs } from './admin/system-logs/system-logs';
 
 export const routes: Routes = [
     { path: '', component: Landing },
@@ -32,5 +36,15 @@ export const routes: Routes = [
       { path: 'settings', component: Settings }
     ]
   },
-    { path: '**', redirectTo: '' }  // wildcard route to catch undefined paths
+    {
+    path: 'admin',
+    component: AdminDashboard,
+    children: [
+      { path: '', component: ManageJobs },
+      { path: 'manage-jobs', component: ManageJobs },
+      { path: 'manage-users', component: ManageUsers },
+      { path: 'system-logs', component: SystemLogs }
+    ]
+  },
+    { path: '**', redirectTo: '' }  // wildcard route to catch undefined paths - MUST be last!
 ];
