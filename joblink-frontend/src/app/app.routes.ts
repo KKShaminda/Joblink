@@ -17,6 +17,7 @@ export const routes: Routes = [
     { path: 'jobs/:id', component: JobDetails },
     { path: 'login', component: Login },
     { path: 'register', component: Register },
+    { path: 'apply/:id', loadComponent: () => import('./pages/job-application/job-application').then(m => m.JobApplication) },
     {
     path: 'dashboard',
     component: DashboardLayout,
