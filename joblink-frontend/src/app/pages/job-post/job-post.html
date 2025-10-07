@@ -1,0 +1,37 @@
+<div class="job-post-container">
+  <h2>Post a New Job</h2>
+
+  <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Job Title</label>
+      <input type="text" formControlName="title" placeholder="Enter job title" />
+      <small *ngIf="submitted && f['title'].errors?.['required']">Title is required.</small>
+    </div>
+
+    <div class="form-group">
+      <label>Company Name</label>
+      <input type="text" formControlName="company" placeholder="Enter company name" />
+      <small *ngIf="submitted && f['company'].errors?.['required']">Company name is required.</small>
+    </div>
+
+    <div class="form-group">
+      <label>Location</label>
+      <input type="text" formControlName="location" placeholder="Enter job location" />
+      <small *ngIf="submitted && f['location'].errors?.['required']">Location is required.</small>
+    </div>
+
+    <div class="form-group">
+      <label>Salary</label>
+      <input type="text" formControlName="salary" placeholder="Enter salary" />
+      <small *ngIf="submitted && f['salary'].errors?.['pattern']">Only numbers allowed.</small>
+    </div>
+
+    <div class="form-group">
+      <label>Job Description</label>
+      <textarea rows="4" formControlName="description" placeholder="Describe the job"></textarea>
+      <small *ngIf="submitted && f['description'].errors?.['minlength']">Minimum 10 characters.</small>
+    </div>
+
+    <button type="submit">Post Job</button>
+  </form>
+</div>

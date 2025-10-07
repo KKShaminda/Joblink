@@ -10,6 +10,7 @@ import { Applications } from './pages/dashboard/applications/applications';
 import { Profile } from './pages/dashboard/profile/profile';
 import { SavedJobs } from './pages/dashboard/saved-jobs/saved-jobs';
 import { Settings } from './pages/dashboard/settings/settings';
+import { JobPost as JobPostComponent } from './pages/job-post/job-post';
 
 export const routes: Routes = [
     { path: '', component: Landing },
@@ -18,6 +19,7 @@ export const routes: Routes = [
     { path: 'login', component: Login },
     { path: 'register', component: Register },
     { path: 'apply/:id', loadComponent: () => import('./pages/job-application/job-application').then(m => m.JobApplication) },
+    { path: 'job-post', component: JobPostComponent },
     {
     path: 'dashboard',
     component: DashboardLayout,
