@@ -1,0 +1,15 @@
+<div class="admin-layout">
+  <aside class="sidebar">
+    <h3>Admin Panel</h3>
+    <nav>
+      <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Overview</a>
+      <a routerLink="/admin/manage-jobs" routerLinkActive="active">Manage Jobs</a>
+      <a routerLink="/admin/manage-users" routerLinkActive="active">Manage Users</a>
+      <a routerLink="/admin/system-logs" routerLinkActive="active">System Logs</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
