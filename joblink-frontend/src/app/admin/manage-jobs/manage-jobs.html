@@ -1,0 +1,24 @@
+<h2>Manage Jobs</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Job ID</th>
+      <th>Title</th>
+      <th>Company</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let job of jobs">
+      <td>{{ job.id }}</td>
+      <td>{{ job.title }}</td>
+      <td>{{ job.company }}</td>
+      <td>{{ job.status }}</td>
+      <td>
+        <button>Edit</button>
+        <button>Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
