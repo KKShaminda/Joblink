@@ -1,15 +1,66 @@
 <nav class="navbar">
   <div class="logo">
+    <span class="logo-icon">💼</span>
     <a routerLink="/">JobLink</a>
   </div>
 
-  <ul class="nav-links">
-    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
-    <li><a routerLink="/jobs" routerLinkActive="active">Jobs</a></li>
-    <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
-    <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-    <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
-    <li><a routerLink="/job-post" routerLinkActive="active">Post a Job</a></li>
+  <div class="nav-content">
+    <ul class="nav-links" [class.mobile-open]="mobileMenuOpen">
+      <li>
+        <a routerLink="/" 
+           routerLinkActive="active" 
+           [routerLinkActiveOptions]="{ exact: true }"
+           (click)="closeMobileMenu()">
+          Home
+        </a>
+      </li>
+      <li>
+        <a routerLink="/jobs" 
+           routerLinkActive="active"
+           (click)="closeMobileMenu()">
+          Find Jobs
+        </a>
+      </li>
+      <li>
+        <a routerLink="/dashboard" 
+           routerLinkActive="active"
+           (click)="closeMobileMenu()">
+          Dashboard
+        </a>
+      </li>
+      <li>
+        <a routerLink="/job-post" 
+           routerLinkActive="active"
+           (click)="closeMobileMenu()">
+          Post Job
+        </a>
+      </li>
+    </ul>
 
-  </ul>
+    <div class="nav-actions">
+      <!-- Guest actions -->
+      <ng-container *ngIf="!isLoggedIn">
+        <a routerLink="/login" class="btn-outline">Sign In</a>
+        <a routerLink="/register" class="btn-primary">Get Started</a>
+      </ng-container>
+
+      <!-- Logged in user -->
+      <ng-container *ngIf="isLoggedIn">
+        <div class="user-menu">
+          <div class="user-avatar" (click)="toggleUserMenu()">
+            {{ getUserInitials() }}
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Mobile menu toggle -->
+    <button class="mobile-menu-toggle" 
+            [class.active]="mobileMenuOpen"
+            (click)="toggleMobileMenu()">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </button>
+  </div>
 </nav>

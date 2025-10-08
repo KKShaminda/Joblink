@@ -1,70 +1,222 @@
 .landing {
-  text-align: center;
-  padding: 50px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
 
   .landing-header {
-    margin-bottom: 30px;
+    text-align: center;
+    margin-bottom: 3rem;
+    max-width: 800px;
 
     h1 {
-      font-size: 3rem;
-      color: #2c3e50;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      
+      @media (max-width: 768px) {
+        font-size: 2.5rem;
+      }
+      
+      @media (max-width: 480px) {
+        font-size: 2rem;
+      }
     }
 
     p {
-      font-size: 1.2rem;
-      color: #555;
+      font-size: 1.25rem;
+      color: #4a5568;
+      line-height: 1.6;
+      font-weight: 400;
+      
+      @media (max-width: 768px) {
+        font-size: 1.1rem;
+      }
     }
   }
 
   .job-search {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 3rem;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
     input {
-      padding: 10px;
+      flex: 1;
+      padding: 1rem 1.5rem;
       font-size: 1rem;
-      width: 250px;
-      margin-right: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+      outline: none;
+      
+      &:focus {
+        border-color: #4299e1;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        transform: translateY(-1px);
+      }
+      
+      &::placeholder {
+        color: #a0aec0;
+      }
     }
 
     button {
-      padding: 10px 20px;
+      padding: 1rem 2rem;
       font-size: 1rem;
-      background-color: #3498db;
+      font-weight: 600;
+      background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 12px;
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+      transition: all 0.2s ease;
+      white-space: nowrap;
 
       &:hover {
-        background-color: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(66, 153, 225, 0.4);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+      
+      @media (max-width: 768px) {
+        padding: 1rem;
       }
     }
   }
 }
 
 .job-results {
-  margin-top: 30px;
-  text-align: left;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 2rem;
 
   h2 {
     text-align: center;
-    margin-bottom: 15px;
-    color: #2c3e50;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 2rem;
   }
 
   ul {
     list-style: none;
     padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
 
     li {
-      padding: 10px;
-      border: 1px solid #ddd;
-      margin-bottom: 8px;
-      border-radius: 5px;
-      background-color: #f9f9f9;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+      border: 1px solid #f1f5f9;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-color: #e2e8f0;
+      }
+      
+      h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 0.5rem;
+      }
+      
+      p {
+        color: #4a5568;
+        line-height: 1.6;
+        margin-bottom: 0.75rem;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+      
+      .company {
+        font-weight: 500;
+        color: #4299e1;
+      }
+      
+      .location {
+        font-size: 0.9rem;
+        color: #718096;
+      }
+    }
+  }
+}
+
+// Additional responsive utilities
+@media (max-width: 1024px) {
+  .landing {
+    padding: 1.5rem;
+    
+    .landing-header {
+      margin-bottom: 2.5rem;
+    }
+    
+    .job-search {
+      margin-bottom: 2.5rem;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .landing {
+    padding: 1rem;
+    
+    .landing-header {
+      margin-bottom: 2rem;
+      
+      h1 {
+        font-size: 1.75rem;
+      }
+      
+      p {
+        font-size: 1rem;
+      }
+    }
+    
+    .job-search {
+      margin-bottom: 2rem;
+      
+      input, button {
+        font-size: 0.95rem;
+      }
+    }
+  }
+  
+  .job-results {
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
     }
   }
 }

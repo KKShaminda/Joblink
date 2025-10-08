@@ -27,7 +27,7 @@
               }
             ],
             "styles": [
-              "src/styles/_globals.scss",
+              "src/Styles/_globals.scss",
               "src/styles.scss"
             ]
           },

@@ -1,13 +1,130 @@
-<section class="job-details" *ngIf="job">
-  <h1>{{ job.title }}</h1>
-  <h3>{{ job.company }}</h3>
-  <p>{{ job.description }}</p>
-  <a [routerLink]="['/apply', job.id]" class="apply-btn">Apply Now</a>
+<div class="job-details-page" *ngIf="job">
+  <div class="job-details-container">
+    
+    <!-- Job Header -->
+    <div class="job-header">
+      <h1 class="job-title">{{ job.title }}</h1>
+      
+      <div class="company-info">
+        <span class="company-name">{{ job.company }}</span>
+        <span class="location" *ngIf="job.location">📍 {{ job.location }}</span>
+        <span class="job-type" *ngIf="job.type">{{ job.type }}</span>
+      </div>
 
+      <div class="job-meta">
+        <div class="meta-item" *ngIf="job.salary">
+          <span class="meta-label">💰 Salary:</span>
+          <span>{{ job.salary }}</span>
+        </div>
+        <div class="meta-item" *ngIf="job.experience">
+          <span class="meta-label">📈 Experience:</span>
+          <span>{{ job.experience }}</span>
+        </div>
+        <div class="meta-item" *ngIf="job.deadline">
+          <span class="meta-label">📅 Deadline:</span>
+          <span>{{ job.deadline }}</span>
+        </div>
+        <div class="meta-item" *ngIf="job.postedDate">
+          <span class="meta-label">📌 Posted:</span>
+          <span>{{ job.postedDate }}</span>
+        </div>
+      </div>
+    </div>
 
-  <a routerLink="/jobs">⬅ Back to Jobs</a>
-</section>
+    <!-- Job Content -->
+    <div class="job-content">
+      <div class="main-content">
+        
+        <!-- Job Description -->
+        <div class="content-card">
+          <h2 class="section-title">Job Description</h2>
+          <div class="section-content">
+            <p>{{ job.description }}</p>
+          </div>
+        </div>
 
-<section *ngIf="!job">
-  <p>Job not found.</p>
-</section>
+        <!-- Requirements -->
+        <div class="content-card" *ngIf="job.requirements">
+          <h2 class="section-title">Requirements</h2>
+          <div class="section-content">
+            <ul>
+              <li *ngFor="let req of job.requirements">{{ req }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Responsibilities -->
+        <div class="content-card" *ngIf="job.responsibilities">
+          <h2 class="section-title">Key Responsibilities</h2>
+          <div class="section-content">
+            <ul>
+              <li *ngFor="let resp of job.responsibilities">{{ resp }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Benefits -->
+        <div class="content-card" *ngIf="job.benefits">
+          <h2 class="section-title">Benefits & Perks</h2>
+          <div class="section-content">
+            <ul>
+              <li *ngFor="let benefit of job.benefits">{{ benefit }}</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-card">
+          
+          <!-- Apply Section -->
+          <div class="apply-section">
+            <a [routerLink]="['/apply', job.id]" class="apply-btn">
+              Apply for this Job
+            </a>
+          </div>
+
+          <!-- Job Statistics -->
+          <div class="job-stats">
+            <div class="stat-item" *ngIf="job.applicants">
+              <span class="stat-label">Applicants</span>
+              <span class="stat-value">{{ job.applicants }}</span>
+            </div>
+            <div class="stat-item" *ngIf="job.views">
+              <span class="stat-label">Views</span>
+              <span class="stat-value">{{ job.views }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Job ID</span>
+              <span class="stat-value">#{{ job.id }}</span>
+            </div>
+          </div>
+
+          <!-- Navigation -->
+          <div class="apply-section" style="margin-top: 2rem;">
+            <a routerLink="/jobs" class="apply-btn" style="background: #6c757d;">
+              ⬅ Back to Jobs
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Job Not Found -->
+<div class="job-details-page" *ngIf="!job">
+  <div class="job-details-container">
+    <div class="job-header">
+      <h1 class="job-title">Job Not Found</h1>
+      <div class="section-content">
+        <p>The job you're looking for could not be found.</p>
+        <a routerLink="/jobs" class="apply-btn">Browse All Jobs</a>
+      </div>
+    </div>
+  </div>
+</div>
