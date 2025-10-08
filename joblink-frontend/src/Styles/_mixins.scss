@@ -1,0 +1,20 @@
+// Center content horizontally & vertically
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Responsive breakpoints
+@mixin responsive($device) {
+  @if $device == 'mobile' {
+    @media (max-width: 768px) {
+      @content;
+    }
+  }
+  @else if $device == 'tablet' {
+    @media (max-width: 1024px) {
+      @content;
+    }
+  }
+}

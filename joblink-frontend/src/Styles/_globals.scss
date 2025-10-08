@@ -1,0 +1,32 @@
+@import 'variables';
+@import 'mixins';
+
+body {
+  margin: 0;
+  font-family: $font-family;
+  background-color: $background-color;
+  color: $text-color;
+}
+
+a {
+  text-decoration: none;
+  color: $primary-color;
+}
+
+a:hover {
+  color: $primary-hover;
+}
+
+button {
+  background-color: $primary-color;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  &:hover {
+    background-color: $primary-hover;
+  }
+}
