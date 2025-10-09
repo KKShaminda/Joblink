@@ -1,0 +1,6 @@
+@JobLink.API_HostAddress = http://localhost:5189
+
+GET {{JobLink.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
