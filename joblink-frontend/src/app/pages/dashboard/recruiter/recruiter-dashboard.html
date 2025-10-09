@@ -1,0 +1,213 @@
+<div class="recruiter-dashboard">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div class="header-content">
+      <div class="user-info">
+        <div class="user-avatar">
+          {{ currentUser?.fullName?.charAt(0) || 'R' }}
+        </div>
+        <div class="user-details">
+          <h1>Welcome, {{ currentUser?.fullName || 'Recruiter' }}!</h1>
+          <p class="company">{{ currentUser?.companyName || 'Your Company' }}</p>
+          <p class="verification" *ngIf="currentUser?.verified">
+            ✓ Verified Recruiter
+          </p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-primary" routerLink="/job-post">
+          <i class="icon">➕</i>
+          Post New Job
+        </button>
+        <button class="btn-outline" (click)="logout()">
+          <i class="icon">🚪</i>
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-card jobs">
+        <div class="stat-icon">📋</div>
+        <div class="stat-info">
+          <h3>{{ stats.totalJobs }}</h3>
+          <p>Total Job Posts</p>
+        </div>
+      </div>
+      <div class="stat-card active">
+        <div class="stat-icon">🟢</div>
+        <div class="stat-info">
+          <h3>{{ stats.activeJobs }}</h3>
+          <p>Active Posts</p>
+        </div>
+      </div>
+      <div class="stat-card applicants">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <h3>{{ stats.totalApplicants }}</h3>
+          <p>Total Applicants</p>
+        </div>
+      </div>
+      <div class="stat-card new-apps">
+        <div class="stat-icon">🆕</div>
+        <div class="stat-info">
+          <h3>{{ stats.newApplications }}</h3>
+          <p>New Applications</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="dashboard-content">
+    <!-- Job Postings -->
+    <div class="content-section">
+      <div class="section-header">
+        <h2>Your Job Postings</h2>
+        <div class="section-actions">
+          <a routerLink="/dashboard/jobs" class="view-all">View All</a>
+          <button class="btn-primary" routerLink="/job-post">Post Job</button>
+        </div>
+      </div>
+      
+      <div class="jobs-list" *ngIf="jobPostings.length > 0; else noJobs">
+        <div class="job-card" *ngFor="let job of jobPostings">
+          <div class="job-header">
+            <div class="job-info">
+              <h3>{{ job.title }}</h3>
+              <p class="department">{{ job.department }} • {{ job.location }}</p>
+              <p class="job-type">{{ job.type | titlecase }} • {{ job.salary }}</p>
+            </div>
+            <div class="job-status">
+              <span class="status-badge" [ngClass]="getJobStatusClass(job.status)">
+                {{ getStatusText(job.status) }}
+              </span>
+            </div>
+          </div>
+          <div class="job-metrics">
+            <div class="metric">
+              <span class="metric-value">{{ job.applicants }}</span>
+              <span class="metric-label">Applicants</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value">{{ job.views }}</span>
+              <span class="metric-label">Views</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value">{{ job.postedDate | date:'MMM d' }}</span>
+              <span class="metric-label">Posted</span>
+            </div>
+          </div>
+          <div class="job-actions">
+            <button class="btn-secondary" (click)="viewJobDetails(job.id)">
+              View Details
+            </button>
+            <button class="btn-secondary" (click)="editJob(job.id)">
+              Edit
+            </button>
+            <button class="btn-outline" (click)="pauseJob(job.id)">
+              {{ job.status === 'active' ? 'Pause' : 'Activate' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noJobs>
+        <div class="empty-state">
+          <div class="empty-icon">📋</div>
+          <h3>No Job Postings</h3>
+          <p>Post your first job to start attracting candidates.</p>
+          <button class="btn-primary" routerLink="/job-post">Post Your First Job</button>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Recent Candidates -->
+    <div class="content-section">
+      <div class="section-header">
+        <h2>Recent Applications</h2>
+        <a routerLink="/dashboard/candidates" class="view-all">View All</a>
+      </div>
+      
+      <div class="candidates-list" *ngIf="recentCandidates.length > 0; else noCandidates">
+        <div class="candidate-card" *ngFor="let candidate of recentCandidates">
+          <div class="candidate-header">
+            <div class="candidate-avatar">
+              {{ candidate.name.charAt(0) }}
+            </div>
+            <div class="candidate-info">
+              <h3>{{ candidate.name }}</h3>
+              <p class="job-applied">Applied for: {{ candidate.jobTitle }}</p>
+              <p class="application-date">{{ candidate.appliedDate | date:'MMM d, y' }}</p>
+            </div>
+            <div class="candidate-status">
+              <span class="status-badge" [ngClass]="getCandidateStatusClass(candidate.status)">
+                {{ getStatusText(candidate.status) }}
+              </span>
+            </div>
+          </div>
+          <div class="candidate-details">
+            <div class="experience">
+              <strong>{{ candidate.experience }}</strong> years experience
+            </div>
+            <div class="skills">
+              <span class="skill-tag" *ngFor="let skill of candidate.skills.slice(0, 3)">
+                {{ skill }}
+              </span>
+              <span *ngIf="candidate.skills.length > 3" class="more-skills">
+                +{{ candidate.skills.length - 3 }} more
+              </span>
+            </div>
+          </div>
+          <div class="candidate-actions">
+            <button class="btn-primary" (click)="viewCandidate(candidate.id)">
+              View Profile
+            </button>
+            <div class="status-actions" *ngIf="candidate.status === 'new' || candidate.status === 'reviewing'">
+              <button class="btn-success" (click)="updateCandidateStatus(candidate.id, 'interview')">
+                Interview
+              </button>
+              <button class="btn-danger" (click)="updateCandidateStatus(candidate.id, 'rejected')">
+                Reject
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noCandidates>
+        <div class="empty-state">
+          <div class="empty-icon">👥</div>
+          <h3>No Applications Yet</h3>
+          <p>When candidates apply to your jobs, they'll appear here.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h3>Quick Actions</h3>
+    <div class="action-buttons">
+      <button class="action-btn" routerLink="/dashboard/analytics">
+        <i class="icon">📊</i>
+        <span>View Analytics</span>
+      </button>
+      <button class="action-btn" routerLink="/dashboard/company-profile">
+        <i class="icon">🏢</i>
+        <span>Company Profile</span>
+      </button>
+      <button class="action-btn" routerLink="/dashboard/templates">
+        <i class="icon">📝</i>
+        <span>Job Templates</span>
+      </button>
+      <button class="action-btn" routerLink="/dashboard/settings">
+        <i class="icon">⚙️</i>
+        <span>Settings</span>
+      </button>
+    </div>
+  </div>
+</div>

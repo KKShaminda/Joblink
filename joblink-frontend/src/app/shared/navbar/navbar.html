@@ -50,6 +50,26 @@
           <div class="user-avatar" (click)="toggleUserMenu()">
             {{ getUserInitials() }}
           </div>
+          <div class="user-dropdown" [class.show]="userMenuOpen">
+            <div class="user-info">
+              <div class="user-name">{{ currentUser?.fullName }}</div>
+              <div class="user-email">{{ currentUser?.email }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a routerLink="/dashboard" class="dropdown-item" (click)="userMenuOpen = false">
+              <i class="icon">📊</i>
+              Dashboard
+            </a>
+            <a routerLink="/settings" class="dropdown-item" (click)="userMenuOpen = false">
+              <i class="icon">⚙️</i>
+              Settings  
+            </a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item logout-btn" (click)="logout()">
+              <i class="icon">🚪</i>
+              Sign Out
+            </button>
+          </div>
         </div>
       </ng-container>
     </div>

@@ -1,24 +1,103 @@
 <div class="login-container">
-  <h2>Login</h2>
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <!-- Email -->
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" formControlName="email" />
-      <div class="error" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-        Please enter a valid email.
+  <div class="login-form">
+    <h2>Welcome Back</h2>
+    <p class="subtitle">Please sign in to your account</p>
+
+    <!-- Demo Credentials Section -->
+    <div class="demo-section">
+      <h4>Quick Demo Access:</h4>
+      <div class="demo-buttons">
+        <button type="button" class="demo-btn job-seeker" (click)="useDemoCredentials(UserRole.JOB_SEEKER)">
+          <i class="icon">👤</i>
+          <span>Job Seeker</span>
+        </button>
+        <button type="button" class="demo-btn recruiter" (click)="useDemoCredentials(UserRole.RECRUITER)">
+          <i class="icon">🏢</i>
+          <span>Recruiter</span>
+        </button>
+        <button type="button" class="demo-btn admin" (click)="useDemoCredentials(UserRole.ADMIN)">
+          <i class="icon">⚙️</i>
+          <span>Admin</span>
+        </button>
       </div>
     </div>
 
-    <!-- Password -->
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" formControlName="password" />
-      <div class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-        Password must be at least 6 characters.
-      </div>
+    <div class="divider">
+      <span>Or login with your credentials</span>
     </div>
 
-    <button type="submit">Login</button>
-  </form>
+    <!-- Error Message -->
+    <div class="error-message" *ngIf="errorMessage">
+      <i class="error-icon">⚠️</i>
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Role Selection -->
+      <div class="form-group">
+        <label for="role">I am a:</label>
+        <select id="role" formControlName="role" class="role-select">
+          <option [value]="UserRole.JOB_SEEKER">Job Seeker</option>
+          <option [value]="UserRole.RECRUITER">Recruiter</option>
+          <option [value]="UserRole.ADMIN">Administrator</option>
+        </select>
+        <div class="error" *ngIf="hasError('role')">
+          Please select your role.
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email"
+          formControlName="email" 
+          placeholder="Enter your email"
+          [class.error-input]="hasError('email')"
+        />
+        <div class="error" *ngIf="hasError('email', 'required')">
+          Email is required.
+        </div>
+        <div class="error" *ngIf="hasError('email', 'email')">
+          Please enter a valid email address.
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password"
+          formControlName="password" 
+          placeholder="Enter your password"
+          [class.error-input]="hasError('password')"
+        />
+        <div class="error" *ngIf="hasError('password', 'required')">
+          Password is required.
+        </div>
+        <div class="error" *ngIf="hasError('password', 'minlength')">
+          Password must be at least 6 characters long.
+        </div>
+      </div>
+
+      <button 
+        type="submit" 
+        class="login-btn"
+        [disabled]="isLoading"
+        [class.loading]="isLoading"
+      >
+        <span *ngIf="!isLoading">Sign In</span>
+        <span *ngIf="isLoading">
+          <i class="spinner"></i>
+          Signing in...
+        </span>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p>Don't have an account? <a routerLink="/register">Sign up here</a></p>
+    </div>
+  </div>
 </div>

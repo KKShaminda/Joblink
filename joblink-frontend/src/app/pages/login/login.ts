@@ -1,32 +1,96 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { UserRole, LoginRequest } from '../../models/user.model';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
 export class Login {
   loginForm: FormGroup;
+  isLoading = false;
+  errorMessage = '';
+  UserRole = UserRole; // Make enum available in template
+  
+  // Demo credentials for easy testing
+  demoCredentials = {
+    [UserRole.JOB_SEEKER]: { email: 'jobseeker@test.com', password: 'password123' },
+    [UserRole.RECRUITER]: { email: 'recruiter@test.com', password: 'password123' },
+    [UserRole.ADMIN]: { email: 'admin@test.com', password: 'password123' }
+  };
 
-  constructor(private fb: FormBuilder) {
-    // Initialize the form with controls
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    // Initialize the form with controls including role selection
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      role: [UserRole.JOB_SEEKER, [Validators.required]]
     });
+
+    // Check if user is already logged in
+    if (this.authService.isAuthenticated()) {
+      this.authService.redirectToDashboard();
+    }
   }
 
   // Called when form is submitted
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log('Form Submitted:', this.loginForm.value);
-      alert('Login Successful!');
+      this.isLoading = true;
+      this.errorMessage = '';
+
+      const loginData: LoginRequest = this.loginForm.value;
+
+      this.authService.login(loginData).subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          console.log('Login successful:', response);
+          this.authService.redirectToDashboard();
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.errorMessage = error.message || 'Login failed. Please try again.';
+          console.error('Login error:', error);
+        }
+      });
     } else {
-      alert('Form is invalid. Please check the inputs.');
+      this.markFormGroupTouched();
     }
+  }
+
+  // Fill form with demo credentials for testing
+  useDemoCredentials(role: UserRole) {
+    const credentials = this.demoCredentials[role];
+    this.loginForm.patchValue({
+      email: credentials.email,
+      password: credentials.password,
+      role: role
+    });
+  }
+
+  // Mark all form fields as touched to show validation errors
+  private markFormGroupTouched() {
+    Object.keys(this.loginForm.controls).forEach(key => {
+      this.loginForm.get(key)?.markAsTouched();
+    });
+  }
+
+  // Helper method to check if field has error
+  hasError(fieldName: string, errorType?: string): boolean {
+    const field = this.loginForm.get(fieldName);
+    if (errorType) {
+      return field ? field.hasError(errorType) && field.touched : false;
+    }
+    return field ? field.invalid && field.touched : false;
   }
 
 }

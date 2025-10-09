@@ -1,0 +1,186 @@
+<div class="job-seeker-dashboard">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div class="header-content">
+      <div class="user-info">
+        <div class="user-avatar">
+          {{ currentUser?.fullName?.charAt(0) || 'U' }}
+        </div>
+        <div class="user-details">
+          <h1>Welcome back, {{ currentUser?.fullName || 'User' }}!</h1>
+          <p>Ready to find your next opportunity?</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-primary" routerLink="/job-listings">
+          <i class="icon">🔍</i>
+          Browse Jobs
+        </button>
+        <button class="btn-outline" (click)="logout()">
+          <i class="icon">🚪</i>
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon applications">📝</div>
+        <div class="stat-info">
+          <h3>{{ stats.totalApplications }}</h3>
+          <p>Total Applications</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon active">🔄</div>
+        <div class="stat-info">
+          <h3>{{ stats.activeApplications }}</h3>
+          <p>Active Applications</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon interviews">🎯</div>
+        <div class="stat-info">
+          <h3>{{ stats.interviews }}</h3>
+          <p>Interviews</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon saved">❤️</div>
+        <div class="stat-info">
+          <h3>{{ stats.savedJobs }}</h3>
+          <p>Saved Jobs</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="dashboard-content">
+    <!-- Recent Applications -->
+    <div class="content-section">
+      <div class="section-header">
+        <h2>Recent Applications</h2>
+        <a routerLink="/dashboard/applications" class="view-all">View All</a>
+      </div>
+      
+      <div class="applications-list" *ngIf="recentApplications.length > 0; else noApplications">
+        <div class="application-card" *ngFor="let application of recentApplications">
+          <div class="application-header">
+            <div class="job-info">
+              <h3>{{ application.jobTitle }}</h3>
+              <p class="company">{{ application.company }}</p>
+              <p class="location">📍 {{ application.location }}</p>
+            </div>
+            <div class="application-status">
+              <span class="status-badge" [ngClass]="getStatusClass(application.status)">
+                {{ getStatusText(application.status) }}
+              </span>
+            </div>
+          </div>
+          <div class="application-details">
+            <div class="detail-item">
+              <span class="label">Applied:</span>
+              <span class="value">{{ application.appliedDate | date:'MMM d, y' }}</span>
+            </div>
+            <div class="detail-item" *ngIf="application.salary">
+              <span class="label">Salary:</span>
+              <span class="value">{{ application.salary }}</span>
+            </div>
+          </div>
+          <div class="application-actions">
+            <button class="btn-secondary" (click)="viewJobDetails(application.id)">
+              View Details
+            </button>
+            <button class="btn-danger" (click)="withdrawApplication(application.id)" 
+                    *ngIf="application.status === 'pending' || application.status === 'reviewing'">
+              Withdraw
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noApplications>
+        <div class="empty-state">
+          <div class="empty-icon">📄</div>
+          <h3>No Applications Yet</h3>
+          <p>Start applying to jobs to see your applications here.</p>
+          <button class="btn-primary" routerLink="/job-listings">Browse Jobs</button>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Saved Jobs -->
+    <div class="content-section">
+      <div class="section-header">
+        <h2>Saved Jobs</h2>
+        <a routerLink="/dashboard/saved-jobs" class="view-all">View All</a>
+      </div>
+      
+      <div class="saved-jobs-list" *ngIf="savedJobs.length > 0; else noSavedJobs">
+        <div class="job-card" *ngFor="let job of savedJobs">
+          <div class="job-header">
+            <div class="job-info">
+              <h3>{{ job.title }}</h3>
+              <p class="company">{{ job.company }}</p>
+              <p class="location">📍 {{ job.location }}</p>
+            </div>
+            <div class="job-meta">
+              <span class="job-type">{{ job.type }}</span>
+              <span class="posted-date">{{ job.postedDate | date:'MMM d' }}</span>
+            </div>
+          </div>
+          <div class="job-details">
+            <div class="salary">💰 {{ job.salary }}</div>
+          </div>
+          <div class="job-actions">
+            <button class="btn-primary" (click)="applyToSavedJob(job.id)">
+              Apply Now
+            </button>
+            <button class="btn-outline" (click)="viewJobDetails(job.id)">
+              View Details
+            </button>
+            <button class="btn-text" (click)="removeSavedJob(job.id)">
+              ❤️ Remove
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noSavedJobs>
+        <div class="empty-state">
+          <div class="empty-icon">❤️</div>
+          <h3>No Saved Jobs</h3>
+          <p>Save jobs you're interested in to view them here later.</p>
+          <button class="btn-primary" routerLink="/job-listings">Browse Jobs</button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h3>Quick Actions</h3>
+    <div class="action-buttons">
+      <button class="action-btn" routerLink="/dashboard/profile">
+        <i class="icon">👤</i>
+        <span>Update Profile</span>
+      </button>
+      <button class="action-btn" routerLink="/dashboard/resume">
+        <i class="icon">📄</i>
+        <span>Upload Resume</span>
+      </button>
+      <button class="action-btn" routerLink="/dashboard/settings">
+        <i class="icon">⚙️</i>
+        <span>Job Preferences</span>
+      </button>
+      <button class="action-btn" routerLink="/dashboard/notifications">
+        <i class="icon">🔔</i>
+        <span>Notifications</span>
+      </button>
+    </div>
+  </div>
+</div>

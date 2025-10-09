@@ -9,7 +9,7 @@
 
   .login-form {
     background: white;
-    max-width: 400px;
+    max-width: 450px;
     width: 100%;
     padding: 2.5rem;
     border-radius: 16px;
@@ -19,6 +19,134 @@
     @media (max-width: 480px) {
       padding: 2rem;
       margin: 1rem;
+      max-width: 100%;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #718096;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+    }
+
+    .demo-section {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(66, 153, 225, 0.05) 0%, rgba(49, 130, 206, 0.05) 100%);
+      border-radius: 12px;
+      border: 1px solid rgba(66, 153, 225, 0.1);
+
+      h4 {
+        margin: 0 0 1rem 0;
+        font-size: 0.9rem;
+        color: #4a5568;
+        text-align: center;
+      }
+
+      .demo-buttons {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+
+        @media (max-width: 480px) {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .demo-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 0.5rem;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.8rem;
+        font-weight: 500;
+
+        .icon {
+          font-size: 1.5rem;
+        }
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        &.job-seeker {
+          border-color: #48bb78;
+          color: #48bb78;
+
+          &:hover {
+            background: #48bb78;
+            color: white;
+          }
+        }
+
+        &.recruiter {
+          border-color: #4299e1;
+          color: #4299e1;
+
+          &:hover {
+            background: #4299e1;
+            color: white;
+          }
+        }
+
+        &.admin {
+          border-color: #ed8936;
+          color: #ed8936;
+
+          &:hover {
+            background: #ed8936;
+            color: white;
+          }
+        }
+      }
+    }
+
+    .divider {
+      text-align: center;
+      margin: 1.5rem 0;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #e2e8f0;
+      }
+
+      span {
+        background: white;
+        padding: 0 1rem;
+        color: #a0aec0;
+        font-size: 0.85rem;
+        position: relative;
+      }
+    }
+
+    .error-message {
+      background: rgba(229, 62, 62, 0.1);
+      border: 1px solid rgba(229, 62, 62, 0.3);
+      color: #e53e3e;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+
+      .error-icon {
+        font-size: 1rem;
+      }
     }
   }
 
@@ -41,13 +169,15 @@
       font-size: 0.9rem;
     }
 
-    input {
+    input,
+    select {
       width: 100%;
       padding: 1rem 1.25rem;
       border: 2px solid #e2e8f0;
       border-radius: 12px;
       background: white;
       font-size: 1rem;
+      box-sizing: border-box;
       transition: all 0.2s ease;
       outline: none;
       
@@ -59,6 +189,19 @@
       
       &::placeholder {
         color: #a0aec0;
+      }
+
+      &.error-input {
+        border-color: #e53e3e;
+        box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+      }
+    }
+
+    .role-select {
+      cursor: pointer;
+      
+      option {
+        padding: 0.5rem;
       }
     }
 
@@ -76,7 +219,7 @@
     }
   }
 
-  button {
+  .login-btn {
     width: 100%;
     padding: 1rem;
     background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
@@ -89,17 +232,37 @@
     box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
     transition: all 0.2s ease;
     margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 
-    &:hover {
+    &:hover:not(:disabled) {
       transform: translateY(-2px);
       box-shadow: 0 6px 16px rgba(66, 153, 225, 0.4);
     }
     
     &:disabled {
-      opacity: 0.6;
+      opacity: 0.7;
       cursor: not-allowed;
       transform: none;
     }
+
+    &.loading {
+      .spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top: 2px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
   
   .login-footer {

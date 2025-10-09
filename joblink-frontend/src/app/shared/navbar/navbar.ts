@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-navbar',
@@ -8,21 +11,27 @@ import { RouterModule } from '@angular/router';
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss'
 })
-export class Navbar {
+export class Navbar implements OnInit, OnDestroy {
   mobileMenuOpen = false;
   userMenuOpen = false;
-  isLoggedIn = false; // This should be connected to your auth service
-  currentUser: any = null; // This should be connected to your auth service
+  isLoggedIn = false;
+  currentUser: User | null = null;
+  private userSubscription?: Subscription;
 
-  constructor() {
-    // Initialize auth state - connect to your auth service here
-    this.checkAuthState();
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    // Subscribe to auth state changes
+    this.userSubscription = this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      this.isLoggedIn = !!user;
+    });
   }
 
-  private checkAuthState() {
-    // TODO: Connect to your authentication service
-    // Example: this.isLoggedIn = this.authService.isAuthenticated();
-    // Example: this.currentUser = this.authService.getCurrentUser();
+  ngOnDestroy() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 
   toggleMobileMenu() {
@@ -38,8 +47,8 @@ export class Navbar {
   }
 
   getUserInitials(): string {
-    if (this.currentUser && this.currentUser.name) {
-      return this.currentUser.name
+    if (this.currentUser && this.currentUser.fullName) {
+      return this.currentUser.fullName
         .split(' ')
         .map((name: string) => name.charAt(0))
         .join('')
@@ -50,10 +59,15 @@ export class Navbar {
   }
 
   logout() {
-    // TODO: Connect to your authentication service
-    // Example: this.authService.logout();
-    this.isLoggedIn = false;
-    this.currentUser = null;
+    this.authService.logout();
     this.userMenuOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.user-menu')) {
+      this.userMenuOpen = false;
+    }
   }
 }

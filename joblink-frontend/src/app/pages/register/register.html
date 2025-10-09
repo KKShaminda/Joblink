@@ -2,6 +2,12 @@
   <div class="register-container">
     <h2>Create Your Account</h2>
 
+    <!-- Error Message -->
+    <div class="error-message" *ngIf="errorMessage">
+      <i class="error-icon">⚠️</i>
+      {{ errorMessage }}
+    </div>
+
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
       <!-- Full Name -->
@@ -29,6 +35,33 @@
         />
         <span class="error-message" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
           Enter a valid email address.
+        </span>
+      </div>
+
+      <!-- Role Selection -->
+      <div class="form-group">
+        <label for="role">I am a:</label>
+        <select id="role" formControlName="role" class="role-select">
+          <option [value]="UserRole.JOB_SEEKER">Job Seeker</option>
+          <option [value]="UserRole.RECRUITER">Recruiter / Employer</option>
+        </select>
+        <span class="error-message" *ngIf="hasError('role')">
+          Please select your role.
+        </span>
+      </div>
+
+      <!-- Company Name (for recruiters) -->
+      <div class="form-group" *ngIf="registerForm.get('role')?.value === UserRole.RECRUITER">
+        <label for="companyName">Company Name</label>
+        <input 
+          type="text" 
+          id="companyName"
+          formControlName="companyName" 
+          placeholder="Enter your company name"
+          [class.error-input]="hasError('companyName')"
+        />
+        <span class="error-message" *ngIf="hasError('companyName', 'required')">
+          Company name is required for recruiters.
         </span>
       </div>
 
@@ -72,8 +105,17 @@
       </div>
 
       <!-- Submit Button -->
-      <button type="submit" class="btn-primary" [disabled]="registerForm.invalid">
-        Create Account
+      <button 
+        type="submit" 
+        class="btn-primary"
+        [disabled]="isLoading"
+        [class.loading]="isLoading"
+      >
+        <span *ngIf="!isLoading">Create Account</span>
+        <span *ngIf="isLoading">
+          <i class="spinner"></i>
+          Creating Account...
+        </span>
       </button>
     </form>
 
