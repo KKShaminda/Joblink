@@ -7,7 +7,7 @@ namespace JobLink.API.Models.Entities
         public int Id { get; set; }
         
         public int JobId { get; set; }
-        public string JobSeekerId { get; set; } = string.Empty;
+        public int JobSeekerId { get; set; }
         public int? JobSeekerProfileId { get; set; }
         
         public string? CoverLetter { get; set; }

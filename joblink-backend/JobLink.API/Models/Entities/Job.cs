@@ -34,7 +34,7 @@ namespace JobLink.API.Models.Entities
         public DateTime? Deadline { get; set; }
         
         // Foreign Keys
-        public string PostedById { get; set; } = string.Empty;
+        public int PostedById { get; set; }
         public int? RecruiterId { get; set; }
         
         // Navigation properties
