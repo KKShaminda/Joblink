@@ -7,15 +7,15 @@
     <div class="demo-section">
       <h4>Quick Demo Access:</h4>
       <div class="demo-buttons">
-        <button type="button" class="demo-btn job-seeker" (click)="useDemoCredentials(UserRole.JOB_SEEKER)">
+        <button type="button" class="demo-btn job-seeker" (click)="useDemoCredentials('jobSeeker')">
           <i class="icon">👤</i>
           <span>Job Seeker</span>
         </button>
-        <button type="button" class="demo-btn recruiter" (click)="useDemoCredentials(UserRole.RECRUITER)">
+        <button type="button" class="demo-btn recruiter" (click)="useDemoCredentials('recruiter')">
           <i class="icon">🏢</i>
           <span>Recruiter</span>
         </button>
-        <button type="button" class="demo-btn admin" (click)="useDemoCredentials(UserRole.ADMIN)">
+        <button type="button" class="demo-btn admin" (click)="useDemoCredentials('admin')">
           <i class="icon">⚙️</i>
           <span>Admin</span>
         </button>
@@ -33,19 +33,6 @@
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <!-- Role Selection -->
-      <div class="form-group">
-        <label for="role">I am a:</label>
-        <select id="role" formControlName="role" class="role-select">
-          <option [value]="UserRole.JOB_SEEKER">Job Seeker</option>
-          <option [value]="UserRole.RECRUITER">Recruiter</option>
-          <option [value]="UserRole.ADMIN">Administrator</option>
-        </select>
-        <div class="error" *ngIf="hasError('role')">
-          Please select your role.
-        </div>
-      </div>
-
       <!-- Email -->
       <div class="form-group">
         <label for="email">Email Address</label>

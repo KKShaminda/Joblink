@@ -16,24 +16,20 @@ export class Login {
   isLoading = false;
   errorMessage = '';
   UserRole = UserRole; // Make enum available in template
-  
-  // Demo credentials for easy testing
-  demoCredentials = {
-    [UserRole.JOB_SEEKER]: { email: 'jobseeker@test.com', password: 'password123' },
-    [UserRole.RECRUITER]: { email: 'recruiter@test.com', password: 'password123' },
-    [UserRole.ADMIN]: { email: 'admin@test.com', password: 'password123' }
-  };
+  demoCredentials: any = {};
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
   ) {
-    // Initialize the form with controls including role selection
+    // Initialize demo credentials
+    this.demoCredentials = this.authService.getDemoCredentials();
+    
+    // Initialize the form without role selection (backend determines role)
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      role: [UserRole.JOB_SEEKER, [Validators.required]]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
 
     // Check if user is already logged in
@@ -68,13 +64,14 @@ export class Login {
   }
 
   // Fill form with demo credentials for testing
-  useDemoCredentials(role: UserRole) {
-    const credentials = this.demoCredentials[role];
-    this.loginForm.patchValue({
-      email: credentials.email,
-      password: credentials.password,
-      role: role
-    });
+  useDemoCredentials(credentialType: string) {
+    const credentials = this.demoCredentials[credentialType];
+    if (credentials) {
+      this.loginForm.patchValue({
+        email: credentials.email,
+        password: credentials.password
+      });
+    }
   }
 
   // Mark all form fields as touched to show validation errors
