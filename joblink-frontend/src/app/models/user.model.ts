@@ -43,7 +43,7 @@ export interface Admin extends User {
 export interface LoginRequest {
   email: string;
   password: string;
-  role: UserRole;
+  role?: UserRole; // Optional for frontend routing after login
 }
 
 export interface LoginResponse {
