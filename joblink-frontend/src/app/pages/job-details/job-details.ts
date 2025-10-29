@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { JobService } from '../../services/job.service';
+import { Job } from '../../models/job.model';
 
 @Component({
   selector: 'app-job-details',
@@ -12,23 +14,53 @@ import { RouterLink } from '@angular/router';
 })
 export class JobDetails implements OnInit {
   jobId: number | null = null;   // store the job ID from URL
-
-  // Mock job data (later we will fetch from backend)
-  jobs = [
-    { id: 1, title: 'Software Engineer', company: 'Tech Solutions', description: 'Develop and maintain software applications.' },
-    { id: 2, title: 'Data Analyst', company: 'Data Corp', description: 'Analyze data and create reports for business decisions.' },
-    { id: 3, title: 'Web Developer', company: 'Web Innovations', description: 'Build and optimize modern web applications.' }
-  ];
-
   job: any = null; // the selected job details
+  isLoading = false;
+  errorMessage = '';
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private jobService: JobService
+  ) {}
 
   ngOnInit(): void {
     // Get the "id" from the URL
     this.jobId = Number(this.route.snapshot.paramMap.get('id'));
+    if (!this.jobId) return;
 
-    // Find the job with that ID
-    this.job = this.jobs.find(j => j.id === this.jobId);
+    this.loadJob(this.jobId);
+  }
+
+  private loadJob(id: number) {
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.jobService.getJobById(id).subscribe({
+      next: (j: Job) => {
+        // map backend fields to template-friendly names
+        this.job = {
+          id: j.id,
+          title: j.title,
+          company: j.companyName || (j as any).company || '',
+          location: j.location,
+          type: j.jobType || (j as any).type || '',
+          description: j.description,
+          salary: j.salaryMin && j.salaryMax ? `$${j.salaryMin.toLocaleString()} - $${j.salaryMax.toLocaleString()}` : (j.salaryMin ? `From $${j.salaryMin}` : (j.salaryMax ? `Up to $${j.salaryMax}` : null)),
+          experience: j.experienceLevel,
+          deadline: j.deadline ? new Date(j.deadline).toLocaleDateString() : null,
+          postedDate: j.createdAt ? new Date(j.createdAt).toLocaleDateString() : null,
+          requirements: typeof j.requirements === 'string' && j.requirements.includes('\n') ? j.requirements.split('\n') : j.requirements ? [j.requirements] : [],
+          benefits: j.benefits ? (Array.isArray(j.benefits) ? j.benefits : [j.benefits]) : [],
+          applicants: (j as any).applications ? (j as any).applications.length : 0,
+          views: (j as any).views || 0
+        };
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.message || 'Job not found';
+        this.job = null;
+      }
+    });
   }
 }
