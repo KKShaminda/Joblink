@@ -15,7 +15,7 @@
       <p><strong>Company:</strong> {{ job.company }}</p>
       <p><strong>Location:</strong> {{ job.location }}</p>
       <p class="desc">{{ job.description }}</p>
-      <button class="apply-btn">View Details</button>
+      <button class="apply-btn" (click)="viewDetails(job.id)">View Details</button>
     </div>
   </div>
 

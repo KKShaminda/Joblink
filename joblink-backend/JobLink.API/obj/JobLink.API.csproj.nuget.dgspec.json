@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Kaveesha\\GitHub\\Joblink\\joblink-backend\\JobLink.API\\JobLink.API.csproj": {}
+    "D:\\Kaveesha\\GitHub\\Joblink\\joblink-backend\\joblink.API\\JobLink.API.csproj": {}
   },
   "projects": {
-    "D:\\Kaveesha\\GitHub\\Joblink\\joblink-backend\\JobLink.API\\JobLink.API.csproj": {
+    "D:\\Kaveesha\\GitHub\\Joblink\\joblink-backend\\joblink.API\\JobLink.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Kaveesha\\GitHub\\Joblink\\joblink-backend\\JobLink.API\\JobLink.API.csproj",
+        "projectUniqueName": "D:\\Kaveesha\\GitHub\\Joblink\\joblink-backend\\joblink.API\\JobLink.API.csproj",
         "projectName": "JobLink.API",
-        "projectPath": "D:\\Kaveesha\\GitHub\\Joblink\\joblink-backend\\JobLink.API\\JobLink.API.csproj",
+        "projectPath": "D:\\Kaveesha\\GitHub\\Joblink\\joblink-backend\\joblink.API\\JobLink.API.csproj",
         "packagesPath": "C:\\Users\\kavin\\.nuget\\packages\\",
-        "outputPath": "D:\\Kaveesha\\GitHub\\Joblink\\joblink-backend\\JobLink.API\\obj\\",
+        "outputPath": "D:\\Kaveesha\\GitHub\\Joblink\\joblink-backend\\joblink.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kavin\\AppData\\Roaming\\NuGet\\NuGet.Config",

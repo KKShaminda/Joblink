@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/user.model';
+import { User, UserRole } from '../../models/user.model';
 
 @Component({
   selector: 'app-navbar',
@@ -16,6 +16,7 @@ export class Navbar implements OnInit, OnDestroy {
   userMenuOpen = false;
   isLoggedIn = false;
   currentUser: User | null = null;
+  showPostJob = false;
   private userSubscription?: Subscription;
 
   constructor(private authService: AuthService) {}
@@ -25,6 +26,8 @@ export class Navbar implements OnInit, OnDestroy {
     this.userSubscription = this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
       this.isLoggedIn = !!user;
+      // Only show Post Job when user is logged in and is not a Job Seeker
+      this.showPostJob = !!user && user.role !== UserRole.JOB_SEEKER;
     });
   }
 

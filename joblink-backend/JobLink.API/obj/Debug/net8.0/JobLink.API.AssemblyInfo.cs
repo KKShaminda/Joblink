@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JobLink.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+65df2e058af1cf0d6ceac13c7b432ae04d686169")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aca56faab18803f55822d8dbdf1ee6bba11c8754")]
 [assembly: System.Reflection.AssemblyProductAttribute("JobLink.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JobLink.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

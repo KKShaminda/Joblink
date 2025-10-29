@@ -22,14 +22,14 @@
         </a>
       </li>
       <li>
-        <a routerLink="/dashboard" 
+        <a *ngIf="isLoggedIn" routerLink="/dashboard" 
            routerLinkActive="active"
            (click)="closeMobileMenu()">
           Dashboard
         </a>
       </li>
       <li>
-        <a routerLink="/job-post" 
+        <a *ngIf="showPostJob" routerLink="/job-post" 
            routerLinkActive="active"
            (click)="closeMobileMenu()">
           Post Job
