@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { JobService } from '../../services/job.service';
+import { Job } from '../../models/job.model';
 
 @Component({
   selector: 'app-job-listings',
@@ -10,35 +12,64 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './job-listings.html',
   styleUrl: './job-listings.scss'
 })
-export class JobListings {
+export class JobListings implements OnInit {
   searchTerm : string = '';
-  jobs = [
-    { id: 1, title: 'Software Engineer', company: 'Tech Corp', location: 'New York, NY', type: 'Full-time', description: 'Develop and maintain web applications.' },
-    { id: 2, title: 'Frontend Developer', company: 'Web Solutions', location: 'San Francisco, CA', type: 'Part-time', description: 'Create user-friendly web interfaces.' },
-    { id: 3, title: 'Backend Developer', company: 'Data Systems', location: 'Austin, TX', type: 'Contract', description: 'Build and optimize server-side logic.' },
-    { id: 4, title: 'UI/UX Designer', company: 'Creative Minds', location: 'Remote', type: 'Full-time', description: 'Design engaging user experiences.' },
-    { id: 5, title: 'DevOps Engineer', company: 'Cloud Services', location: 'Seattle, WA', type: 'Full-time', description: 'Manage cloud infrastructure and deployments.' }
-  ];
-  filteredJobs = [...this.jobs];
+  jobs: Array<any> = [];
+  filteredJobs: Array<any> = [];
+  isLoading = false;
+  errorMessage = '';
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private jobService: JobService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadJobs();
+  }
+
+  loadJobs(search?: string) {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.jobService.getJobs(search ? { search } : undefined).subscribe({
+      next: (res) => {
+        // map backend Job model to template-friendly shape
+  this.jobs = (res.jobs || []).map((j: Job) => ({
+          id: j.id,
+          title: j.title,
+          company: j.companyName || (j as any).company || '',
+          location: j.location,
+          type: j.jobType || (j as any).type || '',
+          description: j.description
+        }));
+        this.filteredJobs = [...this.jobs];
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.message || 'Failed to load jobs';
+      }
+    });
+  }
 
   searchJobs() {
-    this.filteredJobs = this.jobs.filter(job =>
-      job.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      job.company.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      job.location.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+    if (this.searchTerm && this.searchTerm.trim().length > 0) {
+      this.loadJobs(this.searchTerm.trim());
+    } else {
+      this.loadJobs();
+    }
   }
 
   viewDetails(jobId: number) {
     // If user is authenticated, navigate to details page
     if (this.authService.isAuthenticated()) {
-      this.router.navigate([`/job-details/${jobId}`]);
+      this.router.navigate([`/jobs/${jobId}`]);
     } else {
       // Show alert and navigate to sign-in
       alert('Please sign in to view job details.');
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'], { queryParams: { returnUrl: `/jobs/${jobId}` } });
     }
   }
 }
