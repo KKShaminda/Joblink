@@ -8,8 +8,12 @@
     <input type="text" placeholder="Search jobs..." [(ngModel)]="searchTerm" />
     <button (click)="searchJobs()">Search</button>
   </div>
+  <div class="status">
+    <div *ngIf="isLoading" class="loading">Loading jobs...</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  </div>
 
-  <div class="jobs-grid" *ngIf="filteredJobs.length > 0; else noJobs">
+  <div class="jobs-grid" *ngIf="!isLoading && !errorMessage && filteredJobs.length > 0; else noJobs">
     <div class="job-card" *ngFor="let job of filteredJobs">
       <h2>{{ job.title }}</h2>
       <p><strong>Company:</strong> {{ job.company }}</p>
